@@ -10,7 +10,8 @@ CREATE TABLE feeds (
 	feed_index smallint AUTO_INCREMENT PRIMARY KEY,
 	feed_start_date date NOT NULL,
 	feed_end_date date NOT NULL,
-	feed_name varchar(255) NOT NULL
+	feed_name varchar(255) NOT NULL,
+	INDEX (feed_start_date, feed_end_date)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS agency;

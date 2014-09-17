@@ -1,7 +1,7 @@
-# archive_schema.sql
+# tmp_archive_schema.sql
 
-DROP TABLE IF EXISTS positions;
-CREATE TABLE positions (
+DROP TABLE IF EXISTS tmp_positions;
+CREATE TABLE tmp_positions (
 	timestamp datetime NOT NULL,
 	vehicle_id smallint(4) ZEROFILL NOT NULL,
 	latitude decimal(8, 6) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE positions (
 	bearing decimal(5, 2) NOT NULL,
 	progress tinyint(1) NOT NULL,
 	service_date date NOT NULL,
-	trip_index int NOT NULL,
+	trip_id varchar(255) NOT NULL,
 	block_assigned tinyint(1) NOT NULL,
 	next_stop_id int(6),
 	dist_along_route decimal(8, 2),

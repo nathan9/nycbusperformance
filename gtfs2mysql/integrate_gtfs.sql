@@ -66,12 +66,21 @@ INSERT stops
         SELECT @feed_index, NULL, TRIM(stop_id), TRIM(stop_name), TRIM(stop_desc), ROUND(stop_lat, 6), ROUND(stop_lon, 6)
         FROM tmp_stops;
 
+# Add trips that have a shape_id.
 INSERT trips
         SELECT @feed_index, NULL, route_index, service_index, TRIM(trip_id), TRIM(trip_headsign), direction_id, shape_index
         FROM tmp_trips tt, routes r, service_indexes c, shape_indexes s
         WHERE (r.feed_index = @feed_index AND r.route_id = TRIM(tt.route_id)) AND
               (c.feed_index = @feed_index AND c.service_id = TRIM(tt.service_id)) AND
               (s.feed_index = @feed_index AND s.shape_id = TRIM(tt.shape_id));
+
+# Add trips that don`t have a shape_id -- assign shape_index of 0.
+INSERT trips
+        SELECT @feed_index, NULL, route_index, service_index, TRIM(trip_id), TRIM(trip_headsign), direction_id, 0 AS shape_index
+        FROM tmp_trips tt, routes r, service_indexes c
+        WHERE (r.feed_index = @feed_index AND r.route_id = TRIM(tt.route_id)) AND
+              (c.feed_index = @feed_index AND c.service_id = TRIM(tt.service_id)) AND
+              TRIM(tt.shape_id) = '';
 
 INSERT stop_times
         SELECT trip_index, arrival_time, departure_time, stop_index, stop_sequence, pickup_type, drop_off_type
