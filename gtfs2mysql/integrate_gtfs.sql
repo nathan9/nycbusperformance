@@ -60,7 +60,7 @@ CREATE TEMPORARY TABLE shape_indexes (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT shape_indexes
-        SELECT @feed_index, shape_id, shape_index FROM shapes GROUP BY shape_id;
+        SELECT @feed_index, shape_id, shape_index FROM shapes WHERE feed_index = @feed_index GROUP BY shape_id;
 
 INSERT stops
         SELECT @feed_index, NULL, TRIM(stop_id), TRIM(stop_name), TRIM(stop_desc), ROUND(stop_lat, 6), ROUND(stop_lon, 6)
