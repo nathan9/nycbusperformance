@@ -21,5 +21,7 @@ rm tmp_positions.csv
 mysql nycbus -e "INSERT positions SELECT timestamp, vehicle_id, latitude, longitude, bearing, progress, service_date, trip_index, block_assigned, next_stop_id, dist_along_route, dist_from_stop FROM tmp_positions, feeds, trips WHERE (service_date BETWEEN feed_start_date AND feed_end_date) AND feeds.feed_index = trips.feed_index AND trips.trip_id = tmp_positions.trip_id"
 mysql nycbus -e "DROP TABLE tmp_positions"
 
+mysql nycbus -e "SELECT DATE(timestamp), COUNT(*) FROM positions GROUP BY DATE(timestamp) ORDER BY DATE(timestamp) DESC LIMIT 1"
+
 echo 'Done!'
 

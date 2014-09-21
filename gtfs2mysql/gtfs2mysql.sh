@@ -35,5 +35,5 @@ done
 mysql $DB_NAME -e "INSERT feeds SET feed_index = NULL, feed_start_date = '0000-00-00', feed_end_date = '0000-00-00', feed_name = \"$FEED_NAME\""
 echo 'Integrating GTFS data into database...'
 mysql $DB_NAME < integrate_gtfs.sql
-echo 'Done!  (It may be necessary to manually adjust the feed start and end dates to prevent overlap/duplication of services.)'
+echo 'Done!'
 
