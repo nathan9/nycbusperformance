@@ -1,4 +1,3 @@
-#!/bin/bash
 # archive2mysql.sh db_name archive_path
 
 set -e
@@ -15,6 +14,7 @@ xz -d tmp_positions.csv.xz
 mysql $DB_NAME < tmp_archive_schema.sql
 # Import positions data.  Should get as many warnings as there are lines -- MySQL doesn't understand the 'Z' character at the end of the ISO 8601 timestamp (it indicates that the timestamp is in UTC time).  Nevertheless, timestamps will be imported correctly.
 mysqlimport --local --fields-terminated-by=, --lines-terminated-by='\r\n' --ignore-lines=1 $DB_NAME tmp_positions.csv
+mysql nycbus -e "SELECT COUNT(*) FROM tmp_positions"
 rm tmp_positions.csv
 
 # Add positions data to permanent table, using integer trip_index in place of string trip_id.
@@ -22,6 +22,4 @@ mysql nycbus -e "INSERT positions SELECT timestamp, vehicle_id, latitude, longit
 mysql nycbus -e "DROP TABLE tmp_positions"
 
 mysql nycbus -e "SELECT DATE(timestamp), COUNT(*) FROM positions GROUP BY DATE(timestamp) ORDER BY DATE(timestamp) DESC LIMIT 1"
-
-echo 'Done!'
 

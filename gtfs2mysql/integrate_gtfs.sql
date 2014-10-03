@@ -83,10 +83,25 @@ INSERT trips
               TRIM(tt.shape_id) = '';
 
 INSERT stop_times
-        SELECT trip_index, arrival_time, departure_time, stop_index, stop_sequence, pickup_type, drop_off_type
-        FROM tmp_stop_times tst, trips t, stops s
-        WHERE (t.feed_index = @feed_index AND t.trip_id = TRIM(tst.trip_id)) AND
-              (s.feed_index = @feed_index AND s.stop_id = TRIM(tst.stop_id));
+        SELECT trip_index, arrival_time, departure_time, stop_id, stop_sequence, pickup_type, drop_off_type
+        FROM tmp_stop_times tst, trips t
+        WHERE (t.feed_index = @feed_index AND t.trip_id = TRIM(tst.trip_id));
+
+CREATE TEMPORARY TABLE trip_endpoints (
+	trip_index int NOT NULL,
+	start int NOT NULL,
+	end int NOT NULL,
+        PRIMARY KEY (trip_index)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT trip_endpoints
+	SELECT st.trip_index, MIN(stop_sequence) AS start, MAX(stop_sequence) AS end
+	FROM stop_times st, trips t
+	WHERE t.feed_index = @feed_index AND t.trip_index = st.trip_index
+	GROUP BY st.trip_index;
+
+UPDATE stop_times st, trip_endpoints te SET drop_off_type = 1 WHERE st.trip_index = te.trip_index AND stop_sequence = start;
+UPDATE stop_times st, trip_endpoints te SET pickup_type = 1 WHERE st.trip_index = te.trip_index AND stop_sequence = end;
 
 INSERT service_indexes_per_date
 	SELECT @feed_index, date, service_index FROM calendar, dates WHERE feed_index = @feed_index AND (date BETWEEN start_date AND end_date) AND MID(days, day, 1) = '1'

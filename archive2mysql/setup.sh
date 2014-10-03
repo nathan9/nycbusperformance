@@ -16,5 +16,3 @@ DB_NAME=$1
 
 mysql $DB_NAME < archive_schema.sql
 
-echo Done!
-

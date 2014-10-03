@@ -20,5 +20,3 @@ xz -d dates_copy.sql.xz
 mysql $DB_NAME < dates_copy.sql
 rm dates_copy.sql
 
-echo Done!
-

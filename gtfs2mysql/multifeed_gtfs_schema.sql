@@ -79,18 +79,19 @@ CREATE TABLE stop_times (
 	trip_index int NOT NULL,
 	arrival_time time,
 	departure_time time,
-	stop_index int NOT NULL,
+	stop_id int(6) NOT NULL,
 	stop_sequence int NOT NULL,
 	pickup_type tinyint NOT NULL,
 	drop_off_type tinyint NOT NULL,
-	PRIMARY KEY (trip_index, stop_sequence)
+	PRIMARY KEY (trip_index, stop_sequence),
+	UNIQUE (trip_index, stop_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS stops;
 CREATE TABLE stops (
 	feed_index smallint NOT NULL,
 	stop_index int AUTO_INCREMENT PRIMARY KEY,
-	stop_id int(6) ZEROFILL NOT NULL,
+	stop_id int(6) NOT NULL,
 	stop_name varchar(255) NOT NULL,
 	stop_desc varchar(255) NOT NULL,
 	stop_lat decimal(8, 6) NOT NULL,
