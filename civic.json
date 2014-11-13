@@ -1,4 +1,5 @@
 {
+	"thumbnailUrl": "http://nathan9.github.io/nycbusperformance/screenshot.png",
 	"geography": "NYC",
 	"needs": [
 		{"need": "D3 Dev"}
