@@ -1,0 +1,11 @@
+{
+	"geography": "NYC",
+	"needs": [
+		{"need": "D3 Dev"}
+	],
+	"categories": [
+		{"category": "Transportation"},
+		{"category": "Transit"},
+		{"category": "Open Data"}
+	]
+}
