@@ -1,19 +1,19 @@
-# tmp_archive_schema.sql
+# archive_schema.sql
 
-DROP TABLE IF EXISTS tmp_positions;
-CREATE TABLE tmp_positions (
-	timestamp datetime NOT NULL,
+DROP TABLE IF EXISTS positions;
+CREATE TABLE positions (
+	timestamp_utc datetime NOT NULL,
 	vehicle_id smallint(4) ZEROFILL NOT NULL,
 	latitude decimal(8, 6) NOT NULL,
 	longitude decimal(9, 6) NOT NULL,
 	bearing decimal(5, 2) NOT NULL,
 	progress tinyint(1) NOT NULL,
 	service_date date NOT NULL,
-	trip_id varchar(255) NOT NULL,
+	trip_index int NOT NULL,
 	block_assigned tinyint(1) NOT NULL,
 	next_stop_id int(6),
 	dist_along_route decimal(8, 2),
 	dist_from_stop decimal(8, 2),
-	PRIMARY KEY (timestamp, vehicle_id)
+	PRIMARY KEY (timestamp_utc, vehicle_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

@@ -1,10 +1,5 @@
 # multifeed_gtfs_schema.sql
 
-# Differences between NYCT Bus and MTABC feeds:
-# 	agency.txt : MTABC doesnt have agency_phone (last column)
-# 	stops.txt  : MTABC doesnt have zone_id,stop_url,location_type,parent_station (last columns)
-# 	trips.txt  : MTABC has block_id (before shape_id)
-
 DROP TABLE IF EXISTS feeds; 
 CREATE TABLE feeds (
 	feed_index smallint AUTO_INCREMENT PRIMARY KEY,
@@ -84,7 +79,7 @@ CREATE TABLE stop_times (
 	pickup_type tinyint NOT NULL,
 	drop_off_type tinyint NOT NULL,
 	PRIMARY KEY (trip_index, stop_sequence),
-	UNIQUE (trip_index, stop_id)
+	INDEX (trip_index, stop_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS stops;
